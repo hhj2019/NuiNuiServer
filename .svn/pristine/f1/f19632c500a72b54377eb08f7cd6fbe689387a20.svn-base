@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+         PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+         "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+	<!-- 아이디 조회 -->
+   <select id="idSearch" resultClass="MemberVO" parameterClass="MemberVO">
+      <!-- select mem_id from member where mem_id = #mem_id# -->
+      select * from member where mem_id = #mem_id#
+   </select>
+   
+   <!-- 이메일로 조회 -->
+   <select id="emailSearch" resultClass="MemberVO" parameterClass="MemberVO">
+   		select * from member where mem_email = #mem_email# 	
+   </select>
+   
+   <!-- 닉네임 조회 -->
+   <select id="nickSearch" resultClass="MemberVO" parameterClass="MemberVO">
+   		select mem_nick from member where mem_nick = #mem_nick#
+   </select>
+   
+   <!-- 이름 조회 -->
+   <select id="nameSearch" resultClass="MemberVO" parameterClass="MemberVO">
+   		<!-- select mem_name from member where mem_name = #mem_name# -->
+   		select * from member where mem_name = #mem_name#
+   </select>
+   
+
+	<!-- 회원가입할 때 사용  -->
+	<insert id="insertMember" parameterClass="MemberVO">
+		
+		INSERT INTO member (mem_id, mem_name, mem_pass, mem_nick, mem_email, 
+							mem_tel, mem_reg, mem_sex, mem_level)
+						VALUES 
+							(#mem_id#, #mem_name#, #mem_pass#, #mem_nick#, #mem_email#, 
+							#mem_tel#, #mem_reg#, #mem_sex#, 1)
+	</insert>
+	
+	<!-- 비밀번호 찾기 -->
+	<!-- update는 row의 갯수를 반환함 -->
+	<update id="searchPass" parameterClass="MemberVO">
+		UPDATE member
+			   SET mem_pass=#mem_pass#
+			   WHERE mem_id=#mem_id#
+	</update>
+	
+	<!-- 회원정보 수정 --> <!-- 비밀번호, 닉네임, 이메일, 전화번호, 아이디 변경 가능 -->
+	<update id="updateMember" parameterClass="MemberVO">
+		UPDATE member 
+			   SET mem_pass=#mem_pass#,
+			   	   mem_nick=#mem_nick#,
+			   	   mem_email=#mem_email#,
+			   	   mem_tel=#mem_tel#
+			 WHERE mem_id=#mem_id#	
+	</update>
+	
+	
+	
+	<!-- 회원정보 삭제 -->
+	<delete id="deleteMember" parameterClass="String">
+	DELETE FROM member
+		   WHERE mem_id=#mem_id#
+	
+	</delete>
+	
+	<!-- 아이디 중복확인 -->
+	<select id="idCheck" parameterClass="String" resultClass="int">
+	SELECT COUNT(*) FROM member
+		   WHERE mem_id=#mem_id#;
+	</select>
+	
+	<!-- 회원정보 조회 -->
+	<select id="getMember" parameterClass="String" resultClass="MemberVO">
+		
+	</select>
+	
+	<!-- 회원, 관리자 레벨 조회 -->
+	<select id="selectMemLevel" resultClass="INT" parameterClass="MemberVO">
+		SELECT MEM_LEVEL
+    		FROM MEMBER
+    		WHERE MEM_ID = #mem_id#
+	</select>
+	<!-- 이용권 누적사용일 -->
+
+</sqlMap>
+
+<!-- mem_id -->
+<!-- mem_name -->
+<!-- mem_pass -->
+<!-- mem_nick -->
+<!-- mem_email -->
+<!-- mem_tel -->
+<!-- mem_reg --> <!-- 생년월일 --> 
+<!-- mem_sex --> <!-- 성별 -->
+<!-- count_date --> <!-- 이용권누적사용일  -->
+<!-- grade_id --> <!-- 외래키 참조 -->

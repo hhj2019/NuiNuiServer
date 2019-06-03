@@ -1,0 +1,42 @@
+package kr.or.ddit.nn.dao.like;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import kr.or.ddit.nn.util.SqlMapClientFactory;
+import kr.or.ddit.nn.vo.like.LikeVO;
+
+
+public class LikeDaoImpl implements LikeDao {
+	private SqlMapClient smc;
+	
+	private static LikeDaoImpl dao;
+	private LikeDaoImpl() {
+		smc = SqlMapClientFactory.getInstance();
+	}
+	
+	public static LikeDaoImpl getInstance() {
+		if (dao == null) {
+			dao = new LikeDaoImpl();
+		}
+		return dao;
+	}
+	
+	@Override
+	public List<LikeVO> selectLike() {
+		ArrayList<LikeVO> like = new ArrayList<LikeVO>();
+
+		try {
+			like = (ArrayList<LikeVO>) smc.queryForList("selectLike");
+		} catch (SQLException e) {
+			System.out.println("비상비상 에러발생 selectLike");
+			e.printStackTrace();
+		}
+		return like;
+		
+
+}
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Event">
+
+	<!-- 이벤트 전체 출력 -->
+	<select id="selectAllEvent" resultClass="EventVO">
+		SELECT EVENT_ID, EVENT_TITLE, TO_CHAR(EVENT_DATE, 'YYYY-MM-DD HH24:MI:SS') AS event_date
+			FROM EVENT
+		ORDER BY EVENT_ID DESC
+	</select>
+	
+	<!-- 이벤트 상세 출력 -->
+	<select id="selectEventdetail" resultClass="EventVO" parameterClass="INT">
+		SELECT *
+			FROM EVENT
+			WHERE EVENT_ID = #event_id#
+	</select>
+	
+	<!-- 이벤트 기간 출력 -->
+	<select id="selectEventDate" resultClass="EventVO">
+		SELECT EVENT_ID, EVENT_TITLE, EVENT_EVENTDATE
+			FROM EVENT
+			ORDER BY EVENT_ID DESC
+	</select>
+	
+	<!-- 이벤트 추가 -->
+	<insert id="insertEvent" parameterClass="EventVO">
+		INSERT INTO EVENT 
+			VALUES (EVENT_ID_SEQ.NEXTVAL, #event_title#, 
+					#event_content#, SYSDATE, #event_eventdate#)
+	</insert>
+
+	<!-- 이벤트 수정 -->
+	<update id="updateEvent" parameterClass="EventVO">
+		UPDATE EVENT
+			SET EVENT_TITLE = #event_title#, EVENT_DATE = SYSDATE, 
+				EVENT_CONTENT = #event_content#, EVENT_EVENTDATE = #event_eventdate#
+			WHERE EVENT_ID = #event_id#
+	</update>
+	
+	<!-- 이벤트 삭제 -->
+	<delete id="deleteEvent" parameterClass="INT">
+		DELETE FROM EVENT 
+			WHERE EVENT_ID = #event_id#
+	</delete>
+</sqlMap>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+			
+<sqlMap>
+	<select id="viewMusic" resultClass="viewMusicVO">
+		select a.music_id, a.music_name, a.music_lyrics, to_char(a.music_playtime,'MI:SS') as music_playtime, a.music_genre, c.album_name, b.artist_name, c.album_img, a.MUSIC_FILE
+		from music a, artist b, album c
+		where a.artist_id = b.artist_id
+        and   a.album_id = c.album_id
+        ORDER BY 1
+	</select>
+	
+	<select id="selectMusicInfo" resultClass="viewMusicVO" parameterClass="Integer">
+		select a.music_id, a.music_name, a.music_lyrics, to_char(a.music_playtime,'MI:SS') as music_playtime, a.music_genre, c.album_name, b.artist_name, c.album_img, a.MUSIC_FILE, to_char(c.album_date, 'YYYY-MM-DD') as album_date
+		from music a, artist b, album c
+		where a.music_id = #music_id#
+        and a.artist_id = b.artist_id
+        and   a.album_id = c.album_id
+	</select>
+	
+	<select id="selectMainChartMusic" resultClass="viewMusicVO">
+		SELECT music_name, b.artist_name from music a, artist b where a.artist_id = b.artist_id and ROWNUM &lt;= 10 order by a.music_count desc
+	</select>
+</sqlMap>

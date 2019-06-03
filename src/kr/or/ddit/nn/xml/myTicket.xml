@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="myTicket">
+
+	<insert id="myTicket.insertMyTicket" parameterClass="myTicketVO">
+		INSERT INTO my_ticket VALUES(
+			my_ticket_seq.NEXTVAL,
+			#ticket_download_count#,
+			#ticket_end_date#,
+			#ticket_id#,
+			#mem_id#)
+	</insert>
+	
+	<update id="myTicket.updateDownCount" parameterClass="myTicketVO">
+		UPDATE my_ticket
+		SET	ticket_download_count = #ticket_download_count#
+		WHERE my_ticket_id = #my_ticket_id#
+	</update>
+	
+	<delete id="myTicket.deleteTicket" parameterClass="int">
+		DELETE FROM my_ticket
+		WHERE my_ticket_id = #value# 
+	</delete>
+	
+	<select id="myTicket.viewList" parameterClass="string" resultClass="myTicketVO">
+		SELECT * FROM my_ticket
+		WHERE mem_id = #value#
+	</select>
+	
+	<select id="myTicket.usableTicketList" parameterClass="string" resultClass="myTicketVO">
+		SELECT * FROM my_ticket
+		WHERE mem_id = #value#	and
+			ticket_download_count &gt; 0
+	</select>
+	
+	<!-- ***********************************  구  현  ********************************** -->
+	<!-- 1. 날짜가 넘어갈 때 자동으로 회원들의 이용권 내역을 조회하여 기간이 만료된 이용권을 my_ticket 테이블에서 삭제 -->
+	
+</sqlMap>			

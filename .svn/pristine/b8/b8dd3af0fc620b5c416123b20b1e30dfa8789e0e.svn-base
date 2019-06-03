@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PlaylistItem">
+
+<!--1. 플레이리스트에 속한 노래 조회-->
+	<select id="selectPlayListItem" resultClass="viewMusicVO" >
+	 		select distinct p.playlist_id, pi.music_id, m.music_name, a.artist_name, m.music_playtime, ab.album_name
+			from playlist_item pi, PLAYLIST p, music m, artist a, album ab
+			where P.PLAYLIST_ID = #playlist_id#
+			and pi.playlist_id = P.PLAYLIST_ID
+			and m.music_id = pi.music_id
+			and m.artist_id = a.artist_id
+			and m.album_id = ab.album_id
+	</select>
+	
+	<!-- 플레이리스트에 노래 추가 -->
+	<insert id="insertPlayListItem" parameterClass="PlaylistItemVO">
+		insert into playlist_item (playlist_id, music_id) values(#playlist_id#,#music_id#)
+	</insert>
+	
+</sqlMap>
+
+
+

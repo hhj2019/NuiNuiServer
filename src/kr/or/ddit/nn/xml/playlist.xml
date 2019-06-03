@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="playlist">
+
+<!--1.플레이리스트 전체 조회-->
+	<select id="selectPlayListAll" resultClass="PlaylistVO">
+	 		SELECT * FROM PLAYLIST
+	 		WHERE mem_id = #mem_id#
+	</select>
+	
+<!--1-1.플레이리스트 단일 조회-->	
+	<select id="selectPlayList" parameterClass="Integer">
+	 		SELECT * FROM PLAYLIST
+	 		WHERE playlist_id = #playlist_id#
+	</select>
+	
+<!--2.플레이리스트 삭제-->	
+	<delete id="deletePlaylist" parameterClass="Integer">
+		DELETE FROM PLAYLIST
+		WHERE playlist_id = #playlist_id#
+	</delete>
+	
+<!--3.플레이리스트 수정 -->
+	<update id="updatePlaylist" parameterClass="PlaylistVO">
+		UPDATE PLAYLIST 
+			SET playlist_name = #playlist_name#
+			WHERE playlist_id = #playlist_id# AND mem_id = #mem_id#
+	</update>
+	
+<!--4.플레이리스트 추가-->	
+	<insert id="insertPlaylist" parameterClass="PlaylistVO">
+		INSERT INTO PLAYLIST VALUES(
+			PLAYLIST_SQL.NEXTVAL,
+			#playlist_name#, #mem_id#)
+	</insert>
+	
+</sqlMap>
+	

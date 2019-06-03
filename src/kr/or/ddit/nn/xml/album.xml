@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+			
+<sqlMap namespace="album">
+	
+	<!-- 앨범 단일 조회 -->
+	<select id="selectAlbum" resultClass="albumVO" parameterClass="albumVO">
+		select album_id, album_name, album_date, album_like from album where album_id = #album_id# or album_name = #album_name#
+	</select>
+	
+	<!-- 앨범 전체 조회 -->
+	<select id="selectAllAlbum" resultClass="albumVO">
+		select distinct a.album_name as album_name, b.artist_name as artist_name,
+		to_char(album_date, 'YYYY-MM-DD') as album_date, a.album_id as album_id, a.album_img as album_img, b.artist_name as artist_name
+		from album a, artist b
+		where a.artist_id = b.artist_id
+	</select>
+	
+	<!-- 앨범 추가 -->
+	<insert id="insertAlbum" parameterClass="albumVO">
+		insert into album (album_id, album_name, album_date, album_like, album_img, artist_id)
+				values(album_seq.nextval, #album_name#, to_date(#album_date#, 'YYYY-MM-DD'), #album_like#, #album_img#, #artist_id#)
+	</insert>
+	
+	<!-- 앨범 수정 -->
+	<update id="updateAlbum" parameterClass="albumVO">
+		update album set album_name = #album_name#,
+						 album_date = to_date(#album_date#, 'YYYY-MM-DD'),
+						 album_like = #album_like#,
+						 artist_id = #artist_id#,
+						 album_img = #album_img#
+		where album_id = #album_id#
+	</update>
+	
+	<!-- 앨범 삭제 -->
+	<delete id="deleteAlbum" parameterClass="albumVO">
+		delete from album where album_id = #album_id#
+	</delete>
+	
+	<!-- 메인 앨범 출력 -->
+	<select id="selectNewAlbum" resultClass="albumVO">
+	select * from album order by album_date desc
+	</select>
+	
+	<!-- 최신앨범 디테일 -->
+	<select id="selectNewAlbumDetail" resultClass="viewMusicVO" parameterClass="Integer">
+		select a.music_id, a.music_name, a.music_lyrics, to_char(a.music_playtime,'MI:SS') as music_playtime, a.music_genre, c.album_name, b.artist_name, c.album_img, a.MUSIC_FILE, to_char(c.album_date, 'YYYY-MM-DD') as album_date
+		from music a, artist b, album c
+		where a.album_id = #album_id#
+        and a.artist_id = b.artist_id
+        and   a.album_id = c.album_id
+	</select>
+	
+</sqlMap>

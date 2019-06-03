@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ticketHistory">
+
+	<insert id="ticketHistory.insertHistory" parameterClass="ticketHistoryVO">
+		INSERT INTO ticket_history VALUES(
+			TICKET_HISTORY_SEQ.NEXTVAL,
+			SYSDATE,
+			#mem_id#,
+			#ticket_id#)
+	</insert>
+	
+	<select id="ticketHistory.viewHistory" parameterClass="string" resultClass="ticketHistoryVO">
+		SELECT * FROM ticket_history
+		WHERE mem_id = #value#
+		ORDER BY buy_date DESC
+	</select>
+
+</sqlMap>			
+
+
+
+
+

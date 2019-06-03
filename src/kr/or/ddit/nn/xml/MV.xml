@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<insert id="insertMV" parameterClass="MVVO">
+		insert into mv values(mv_seq.nextval, #mv_src#, #mv_like#, #mv_date#)
+	</insert>
+	
+	<update id="updateMV" parameterClass="MVVO">
+		update mv set mv_src=#mv_src#, mv_like=#mv_like#, mv_date=#mv_date#
+		where  mv_id = #mv_id#
+	</update>
+	
+	<delete id="deleteMV" parameterClass="MVVO">
+		delete from mv where mv_id = #mv_id#
+	</delete>
+	
+	<select id="selectMV" resultClass="MVVO" parameterClass="MVVO">
+		select * from MV where mv_id = #mv_id#
+	</select>
+	
+	<select id="selectAllMV" resultClass="MVVO">
+		select * from MV
+	</select>
+</sqlMap>

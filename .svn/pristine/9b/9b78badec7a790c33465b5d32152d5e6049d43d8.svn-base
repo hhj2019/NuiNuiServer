@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ChartItem">
+
+	<!-- 차트 목록 출력 -->
+	<select id="selectAllChartItem" resultClass="Chart_ItemVO">
+		SELECT *
+			FROM CHART_ITEM
+	</select>
+	<!-- 차트 아이디에 맞는 차트 출력 -->
+	<select id="selectChartMusic" resultClass="Chart_ItemVO" parameterClass="Integer">
+		SELECT *
+			FROM CHART_ITEM
+			where chart_id = #chart_id#
+	</select>
+	<!-- 차트에 노래 추가 -->
+	<insert id="insertChartMusic" parameterClass="Chart_ItemVO">
+		insert into chart_item(chart_id, music_id) values(#chart_id#, #music_id#)
+	</insert>
+	
+</sqlMap>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Report">
+
+	<!-- 신고하기 전체 출력 -->
+	<select id="selectAllReport" resultClass="ReportVO">
+		SELECT REPORT_ID, REPORT_TITLE, MEM_ID, REPORT_ING ,TO_CHAR(REPORT_DATE , 'YYYY-MM-DD HH24:MI:SS') AS report_date
+			FROM REPORT
+		ORDER BY REPORT_ID DESC		
+	</select>
+	
+	<!-- 신고하기 상세 출력 -->
+	<select id="selectReportdetail" resultClass="ReportVO" parameterClass="INT">
+		SELECT A.REPORT_ID, A.REPORT_TITLE, A.REPORT_CONTENT, A.REPORT_DATE, A.MEM_ID, A.REPORT_CATEGORY, A.REPORT_ING, B.MEM_EMAIL
+			FROM REPORT A, MEMBER B
+			WHERE A.MEM_ID = B.MEM_ID
+			AND REPORT_ID = #report_id#
+	</select>
+	
+	<!-- 최근 신고하기 출력 -->
+	<select id="selectNewReport" resultClass="ReportVO">
+	SELECT REPORT_ID, REPORT_TITLE, TO_CHAR(REPORT_DATE , 'YYYY-MM-DD HH24:MI:SS') AS report_date
+			FROM REPORT
+	    WHERE ROWNUM &lt;= 3
+	    ORDER BY REPORT_DATE DESC	
+	</select>
+	
+	<!-- 자신이 작성한 신고 출력 -->
+	<select id="selectMyReport" resultClass="ReportVO" parameterClass="String">
+		SELECT REPORT_ID, REPORT_TITLE, REPORT_ING, REPORT_DATE
+    		FROM REPORT
+    		WHERE MEM_ID = #MEM_ID#
+    	ORDER BY REPORT_ID DESC	
+	</select>
+	
+	<!-- 신고하기 추가 -->
+	<insert id="insertReport" parameterClass="ReportVO">
+		INSERT INTO REPORT
+			VALUES (REPORT_ID_SEQ.NEXTVAL, #report_title#, #report_content#, 
+					SYSDATE, #mem_id#, #report_category#, '미확인')
+	</insert>
+	
+	<!-- 신고하기 업데이트 -->
+	<update id="updateReport" parameterClass="ReportVO">
+		UPDATE REPORT
+			SET REPORT_ING = #report_ing#
+			WHERE REPORT_ID = #report_id#
+	</update>
+</sqlMap>

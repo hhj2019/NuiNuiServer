@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="myInfo">
+	
+	<select id="myInfo.viewInfo" parameterClass="string" resultClass="memberVO">
+		SELECT * FROM member
+		WHERE mem_id = #mem_id#		
+	</select>
+	
+	<select id="myInfo.viewGrade" parameterClass="int" resultClass="gradeVO">
+		SELECT * FROM grade_info
+		WHERE grade_id = #value#		
+	</select>
+	
+	<select id="myInfo.viewAllGrade" resultClass="gradeVO">
+		SELECT * FROM grade_infos		
+	</select>
+	
+	<update id="myInfo.updateInfo" parameterClass="memberVO">
+		UPDATE member
+		SET mem_pass = #mem_pass#,
+			mem_name = #mem_name#,
+			mem_reg = #mem_reg#,
+			mem_nick = #mem_nick#,
+			mem_tel = #mem_tel#,
+			mem_email = #mem_email#
+		WHERE mem_id = #mem_id#
+	</update>
+	
+	<update id="myInfo.updateGrade" parameterClass="string">
+		UPDATE member
+		SET count_day = count_day + 1
+		WEHRE mem_id = #value#
+	</update>
+	
+	<!-- ***********************************  구  현  ********************************** -->
+	<!-- 1. 이용권 사용 누적기간에 따라 자동으로 member의 grade_info 값을 계산함 -->
+
+</sqlMap>			
+
+
+
+
+

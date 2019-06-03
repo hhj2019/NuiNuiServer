@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+			
+<sqlMap>
+	
+	<!-- 아티스트 추가 -->
+	<insert id="insertArtist" parameterClass="artistVO">
+		insert into artist (artist_id,artist_name,artist_enter, artist_type, artist_debut, artist_country, artist_like)
+		values(artist_seq.nextval, #artist_name#, #artist_enter#, #artist_type#, to_date(#artist_debut#, 'YYYY-MM-DD'), #artist_country#, #artist_like#)
+	</insert>
+	
+	<!-- 아티스트 수정 -->
+	<update id="updateArtist" parameterClass="artistVO">
+		update artist
+		set artist_name = #artist_name#,artist_enter = #artist_enter#,
+		artist_like = #artist_like#, artist_type = #artist_type#,
+		artist_debut = to_date(#artist_debut#,'YYYY-MM-DD'), artist_country = #artist_country#
+		where artist_id = #artist_id#
+	</update>
+	
+	<!-- 아티스트 삭제 -->
+	<delete id="deleteArtist" parameterClass="artistVO">
+		delete from artist where artist_id = #artist_id#
+	</delete>
+	
+	<!-- 아티스트 조회 -->
+	<select id="selectArtist" parameterClass="artistVO" resultClass="artistVO">
+		select artist_id,artist_name,artist_enter, artist_type, to_char(artist_debut, 'YYYY-MM-DD') as artist_debut, artist_country, artist_like
+		from artist
+		where artist_id = #artist_id#
+		or artist_name = #artist_name#
+	</select>
+	
+	<!-- 아티스트 이름으로 조회 -->
+	<select id="selectArtistForName" parameterClass="String" resultClass="artistVO">
+		select artist_id,artist_name,artist_enter, artist_type, to_char(artist_debut, 'YYYY-MM-DD') as artist_debut, artist_country, artist_like
+		from artist
+		where artist_name = #artist_name#
+	</select>
+	
+	<!-- 아티스트 전체조회 -->
+	<select id="selectAllArtist" resultClass="artistVO">
+		select artist_id,artist_name,artist_enter, artist_type, to_char(artist_debut, 'YYYY-MM-DD') as artist_debut, artist_country, artist_like from artist
+	</select>
+
+</sqlMap>

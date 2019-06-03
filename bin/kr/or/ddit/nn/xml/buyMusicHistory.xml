@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="buyMusicHistory">
+
+	<insert id="buyMusicHistory.insertHistory" parameterClass="buyMusicHistoryVO">
+		INSERT INTO buy_music_history VALUES(
+			#mem_id#,
+			#music_id#,
+			SYSDATE)
+	</insert>
+	
+	<select id="buyMusicHistory.viewHistory" parameterClass="string" resultClass="buyMusicHistoryVO">
+		SELECT * FROM buy_music_history
+		WHERE mem_id = #value#
+		ORDER BY buy_date DESC
+	</select>
+	
+	<select id="buyMusicHistory.selectHistory" parameterClass="buyMusicHistoryVO" resultClass="int">
+		SELECT count(*) FROM buy_music_history
+		WHERE mem_id = #mem_id#
+		AND	  music_id = #music_id#
+	</select>
+
+</sqlMap>			

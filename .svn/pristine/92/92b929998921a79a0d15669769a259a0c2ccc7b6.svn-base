@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="music">
+	
+	<!-- 음악 단일 조회 -->
+	<select id="selectMusic" parameterClass="Integer" resultClass="musicVO">
+		select * from music where music_id = #music_id#
+	</select>
+	
+	<!-- 앨범 내 음악 조회 -->
+	<select id="selectMusicInAlbum" parameterClass="Integer" resultClass="musicVO">
+		select * from music where album_id = #album_id#
+	</select>
+	
+	<!-- 음악 전체 조회 -->
+	<select id="selectAllMusic" resultClass="musicVO">
+		select * from music
+	</select>
+	
+	<!-- 음악 추가 -->
+	<insert id="insertMusic" parameterClass="musicVO">
+		insert into music (music_id, music_name, album_id, artist_id,
+				music_lyrics, music_playtime, music_genre, music_like, mv_id, music_file)
+		values (music_seq.nextval, #music_name#, #album_id#, #artist_id#,
+				#music_lyrics#, #music_playtime#, #music_genre#, #music_like#, #mv_id#, #music_file#)
+	</insert>
+	
+	<!-- 음악 수정 -->
+	<update id="updateMusic" parameterClass="musicVO">
+		update music set music_name = #music_name#, album_id = #album_id#, artist_id = #artist_id#,
+				music_lyrics = #music_lyrics#, music_genre = #music_genre#,
+				music_like = #music_like#
+		where music_id = #music_id#
+	</update>
+	
+	<!-- 음악 삭제 -->
+	<delete id="deleteMusic" parameterClass="Integer">
+		delete from music where music_id = #music_id#
+	</delete>
+	
+	<!-- 순위 음악 출력 -->
+	<select id="selectMusicCount" resultClass="viewMusicVO" parameterClass="java.util.List">
+		select distinct a.music_count, a.music_id, a.music_name, a.music_lyrics, to_char(a.music_playtime,'MI:SS') as music_playtime, a.music_genre, c.album_name, b.artist_name, c.album_img, a.MUSIC_FILE
+		from music a, artist b, album c, CHART_ITEM d
+		where a.music_id <iterate prepend="IN" open="(" close=")" conjunction=",">#[].music_id#</iterate>
+        and a.artist_id = b.artist_id
+        and a.album_id = c.album_id
+        and ROWNUM &lt;= 100
+        order by music_count desc
+	</select>
+	
+	<!-- 검색 -->
+	<select id="serch" parameterClass="String" resultClass="viewMusicVO" >
+		 select a.music_count, a.music_id, a.music_name, a.music_lyrics, to_char(a.music_playtime,'MI:SS') as music_playtime, a.music_genre, c.album_name, b.artist_name, c.album_img, a.MUSIC_FILE
+		from music a, artist b, album c
+		where (a.music_name LIKE '%'||#VALUE#||'%' OR 
+        B.ARTIST_NAME LIKE  '%'||#VALUE#||'%')
+        AND a.artist_id = b.artist_id
+        and a.album_id = c.album_id;
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMapConfig      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+<!-- 내가 한 것 -->
+	<properties resource="SqlMapConfig.properties" />
+	
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		lazyLoadingEnabled="true" maxRequests="32" maxSessions="10"
+		maxTransactions="5" useStatementNamespaces="false" />
+	
+	<!-- 보람 -->
+	<typeAlias alias="ticketVO" 				type="kr.or.ddit.nn.vo.ticket.TicketVO"/>
+	<typeAlias alias="ticketHistoryVO" 			type="kr.or.ddit.nn.vo.ticket.TicketHistoryVO"/>
+	<typeAlias alias="myTicketVO" 				type="kr.or.ddit.nn.vo.ticket.MyTicketVO"/>
+	<typeAlias alias="buyMusicHistoryVO" 		type="kr.or.ddit.nn.vo.music.BuyMusicHistoryVO"/>
+	<typeAlias alias="gradeVO"					type="kr.or.ddit.nn.vo.grade.GradeVO"/>
+	
+	
+	<!-- 정환 -->
+	<typeAlias alias="PlaylistVO" 		type="kr.or.ddit.nn.vo.playlist.PlaylistVO"/>
+	<typeAlias alias="PlaylistItemVO" 	type="kr.or.ddit.nn.vo.playlistitem.PlaylistItemVO"/>
+	<typeAlias alias="PlayMusicItemVO" 	type="kr.or.ddit.nn.vo.playmusicitem.PlayMusicItemVO"/>
+	<typeAlias alias="LikeVO" 			type="kr.or.ddit.nn.vo.like.LikeVO"/>
+	<typeAlias alias="MusicHistoryVO" 	type="kr.or.ddit.nn.vo.musicHistory.MusicHistoryVO"/>
+	<typeAlias alias="MvHistoryVO" 		type="kr.or.ddit.nn.vo.mvHistory.MvHistoryVO"/>
+	<typeAlias alias="Music_searchVO" 		type="kr.or.ddit.nn.vo.music.Music_searchVO"/>
+	
+
+	<!-- 형욱 -->
+	<typeAlias alias="MemberVO" type="kr.or.ddit.nn.vo.member.MemberVO"/>
+
+
+
+	<!-- 민주 -->
+	<typeAlias alias="FAQVO" 		type="kr.or.ddit.nn.vo.faq.FAQVO"/>
+	<typeAlias alias="NoticeVO" 	type="kr.or.ddit.nn.vo.notice.NoticeVO"/>
+	<typeAlias alias="AnswerVO" 	type="kr.or.ddit.nn.vo.qna.AnswerVO"/>
+	<typeAlias alias="QuestionVO" 	type="kr.or.ddit.nn.vo.qna.QuestionVO"/>
+	<typeAlias alias="ReportVO" 	type="kr.or.ddit.nn.vo.report.ReportVO"/>
+	<typeAlias alias="ChartVO" 		type="kr.or.ddit.nn.vo.chart.ChartVO"/>
+	<typeAlias alias="Chart_ItemVO" type="kr.or.ddit.nn.vo.chartItem.Chart_ItemVO"/>
+	<typeAlias alias="EventVO" 		type="kr.or.ddit.nn.vo.event.EventVO"/>
+	<typeAlias alias="QnAVO" 		type="kr.or.ddit.nn.vo.qna.QnAVO"/>
+	<typeAlias alias="Notice_searchVO" 		type="kr.or.ddit.nn.vo.notice.Notice_searchVO"/>
+	<typeAlias alias="Notice_OsearchVO" 	type="kr.or.ddit.nn.vo.notice.Notice_OsearchVO"/>
+	<typeAlias alias="FAQ_SearchVO" 		type="kr.or.ddit.nn.vo.faq.FAQ_SearchVO"/>
+	<typeAlias alias="FAQ_OSearchVO" 		type="kr.or.ddit.nn.vo.faq.FAQ_OSearchVO"/>
+	<typeAlias alias="FAQ_OSearchVO2" 		type="kr.or.ddit.nn.vo.faq.FAQ_OSearchVO2"/>
+	
+	
+	<!-- 상근 -->
+	<typeAlias alias="albumVO" 		type="kr.or.ddit.nn.vo.album.albumVO"/>
+	<typeAlias alias="artistVO" 	type="kr.or.ddit.nn.vo.artist.artistVO"/>
+	<typeAlias alias="musicVO" 		type="kr.or.ddit.nn.vo.music.musicVO"/>
+	<typeAlias alias="GaraokeVO" 	type="kr.or.ddit.nn.vo.garaoke.GaraokeVO"/>
+	<typeAlias alias="garaoke_infoVO" 	type="kr.or.ddit.nn.vo.garaoke.garaoke_infoVO"/>
+	<typeAlias alias="MVVO" 		type="kr.or.ddit.nn.vo.mv.MVVO"/>
+	<typeAlias alias="viewMusicVO" type="kr.or.ddit.nn.vo.music.viewMusicVO"/>
+	
+	<transactionManager type="JDBC">
+		<dataSource type="SIMPLE">
+			<property name="JDBC.Driver" value="${driver}" />
+			<property name="JDBC.ConnectionURL" value="${url}" />
+			<property name="JDBC.Username" value="${username}" />
+			<property name="JDBC.Password" value="${password}" />
+		</dataSource>
+	</transactionManager>
+	
+	
+	
+	<!-- xml파일 넣고 작성하세요 -->
+	
+	<!-- 보람 -->
+	<sqlMap resource="kr/or/ddit/nn/xml/ticket.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/ticketHistory.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/myTicket.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/buyMusicHistory.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/myInfo.xml"/>
+	
+	
+	<!-- 정환 -->
+	<sqlMap resource="kr/or/ddit/nn/xml/playlist.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/PlaylistItem.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/PlayMusicItem.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/like.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/musicHistory.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/mvHistory.xml"/>
+	
+	<!-- 형욱 -->
+	<sqlMap resource="kr/or/ddit/nn/xml/join.xml"/>
+	
+	<!-- 민주 -->
+	<sqlMap resource="kr/or/ddit/nn/xml/Answer.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/FAQ.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/Notice.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/Question.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/Report.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/Chart.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/Chart_Item.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/event.xml"/>
+
+	<!-- 상근 -->
+	<sqlMap resource="kr/or/ddit/nn/xml/album.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/artist.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/music.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/MV.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/garaoke.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/garaoke_info.xml"/>
+	<sqlMap resource="kr/or/ddit/nn/xml/viewMusic.xml"/>
+	
+	
+</sqlMapConfig>
+

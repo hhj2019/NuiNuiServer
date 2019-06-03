@@ -1,0 +1,14 @@
+package kr.or.ddit.nn.dao.like;
+
+import java.util.List;
+
+import kr.or.ddit.nn.vo.like.LikeVO;
+
+public interface LikeDao{
+	
+	/**
+	 * 1. Like 조회
+	 */
+	public List<LikeVO> selectLike();
+	
+}

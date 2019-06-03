@@ -1,0 +1,50 @@
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Answer">
+
+	<!-- 답변 상세 출력 -->
+	<select id="selectAnswerdetail" resultClass="QnAVO" parameterClass="INT">
+		SELECT a.answer_title, a.answer_content, a.answer_date, 
+			   b.question_title, b.question_content,b.question_date, b.question_category, b.mem_id
+			FROM ANSWER a, question b
+      		where a.QUESTION_ID = b.question_id
+            and b.question_id = #question_id#
+	</select>
+
+	<!-- 답변 추가 -->
+	<insert id="insertAnswer" parameterClass="AnswerVO">
+		INSERT INTO ANSWER
+			VALUES (ANSWER_ID_SEQ.NEXTVAL, #answer_title#,
+					#answer_content#, SYSDATE, #question_id#, '답변')
+	</insert>
+
+	<!-- !!관리자 답변 전체 출력 -->
+	<select id="SelectMAnswerList" resultClass="QnAVO" parameterClass="INT">
+		SELECT DISTINCT a.QUESTION_ID, A.A_INFO, A.ANSWER_TITLE, TO_CHAR(A.ANSWER_DATE, 'YYYY-MM-DD HH24:MI:SS') AS ANSWER_DATE
+   			FROM ANSWER A, QUESTION B
+    		WHERE A.QUESTION_ID = #question_id#
+	</select>
+	
+	<!-- !!자기 질문 전체 출력 -->
+	<select id="SelectMyAnswerList" resultClass="QnAVO" parameterClass="QuestionVO">
+		SELECT DISTINCT a.QUESTION_ID, a.A_INFO, a.ANSWER_TITLE, TO_CHAR(a.ANSWER_DATE, 'YYYY-MM-DD HH24:MI:SS') AS ANSWER_DATE
+    		FROM ANSWER a, QUESTION b
+    		WHERE a.QUESTION_ID = #question_id#
+      		AND b.MEM_ID = #mem_id#
+	</select>
+	
+	<!-- 답변 여부 확인 -->
+	<select id="SelectAnswerOK" resultClass="INT" parameterClass="INT">
+		SELECT COUNT(ANSWER_ID)
+    		FROM ANSWER
+   			WHERE QUESTION_ID = #question_id#
+    </select>
+    
+    <!-- 답변 삭제 -->
+    <delete id="deleteAnswer" parameterClass="INT">
+        DELETE FROM ANSWER 
+        	WHERE QUESTION_ID = #question_id#
+    </delete>
+</sqlMap>

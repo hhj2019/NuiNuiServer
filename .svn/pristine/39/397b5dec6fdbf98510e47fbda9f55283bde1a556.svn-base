@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="FAQ">
+
+	<!-- 자주묻는질문 전체 출력 -->
+	<select id="selectAllFAQ" resultClass="FAQVO">
+		SELECT FAQ_ID, FAQ_TITLE, TO_CHAR(FAQ_DATE, 'YYYY-MM-DD HH24:MI:SS') AS faq_date
+			FROM FAQ
+		ORDER BY FAQ_ID DESC
+	</select>
+	
+	<!-- 자주묻는질문 상세 출력 -->
+	<select id="selectFAQdetail" resultClass="FAQVO" parameterClass="INT">
+		SELECT * 
+			FROM FAQ 
+			WHERE FAQ_ID = #faq_id#
+	</select>
+	
+	<!-- 최근 자주묻는 질문 출력 -->
+	<select id="selectNewFAQ" resultClass="FAQVO">
+		SELECT FAQ_ID, FAQ_TITLE, TO_CHAR(FAQ_DATE, 'YYYY-MM-DD HH24:MI:SS') AS faq_date
+			FROM FAQ
+	    	WHERE ROWNUM &lt;= 3
+	    	ORDER BY FAQ_DATE DESC
+	</select>
+	
+	<!-- 자주묻는질문 추가 -->
+	<insert id="insertFAQ" parameterClass="FAQVO">
+		INSERT INTO FAQ
+			VALUES (FAQ_ID_SEQ.NEXTVAL, #faq_title#, 
+					#q_content#, #a_content#, SYSDATE)
+	</insert>
+
+	<!-- 자주묻는질문 수정 -->
+	<update id="updateFAQ" parameterClass="FAQVO">
+		UPDATE FAQ
+			SET FAQ_TITLE = #faq_title#, Q_CONTENT = #q_content#, A_CONTENT = #a_content#, FAQ_DATE = SYSDATE
+			WHERE FAQ_ID = #faq_id#
+	</update>
+	
+	<!-- 자주묻는질문 삭제 -->
+	<delete id="deleteFAQ" parameterClass="INT">
+		DELETE FROM FAQ 
+			WHERE FAQ_ID = #faq_id#
+	</delete>
+	
+	<!-- 자주묻는질문 제목+내용 검색  -->
+	<select id="allSearchFaq" resultClass="FAQVO" parameterClass="FAQ_SearchVO">
+		SELECT FAQ_ID, FAQ_TITLE, TO_CHAR(FAQ_DATE, 'YYYY-MM-DD HH24:MI:SS') AS FAQ_DATE
+    		FROM FAQ
+		    WHERE FAQ_TITLE LIKE '%'||#search_text#||'%'
+		    OR Q_CONTENT LIKE '%'||#search_text1#||'%'
+		    OR A_CONTENT LIKE '%'||#search_text2#||'%'
+	</select>
+	
+	<!-- 자주묻는질문 제목 검색  -->
+	<select id="titleSearchFaq" resultClass="FAQVO" parameterClass="FAQ_OSearchVO">
+		SELECT FAQ_ID, FAQ_TITLE, TO_CHAR(FAQ_DATE, 'YYYY-MM-DD HH24:MI:SS') AS FAQ_DATE
+    		FROM FAQ
+		    WHERE FAQ_TITLE LIKE '%'||#search_text#||'%'
+	</select>
+	
+	<!-- 자주묻는질문 제목 검색  -->
+	<select id="contentSearchFaq" resultClass="FAQVO" parameterClass="FAQ_OSearchVO2">
+		SELECT FAQ_ID, FAQ_TITLE, TO_CHAR(FAQ_DATE, 'YYYY-MM-DD HH24:MI:SS') AS FAQ_DATE
+    		FROM FAQ
+		    WHERE Q_CONTENT LIKE '%'||#search_text#||'%'
+		    OR A_CONTENT LIKE '%'||#search_text1#||'%'
+	</select>
+</sqlMap>

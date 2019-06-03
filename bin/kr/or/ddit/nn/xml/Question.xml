@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Question">
+
+	<!-- !!관리자 질문 전체 출력 -->
+	<select id="SelectMQuestionList" resultClass="QnAVO">
+		SELECT DISTINCT QUESTION_ID, Q_INFO, QUESTION_TITLE, TO_CHAR(QUESTION_DATE , 'YYYY-MM-DD HH24:MI:SS') AS question_date
+			FROM QUESTION
+		ORDER BY QUESTION_ID ASC
+	</select>
+	
+	<!-- 질문 상세 출력 -->
+	<select id="selectQuestiondetail" resultClass="QuestionVO" parameterClass="INT">
+		SELECT a.QUESTION_ID, a.QUESTION_TITLE, a.QUESTION_CATEGORY, a.QUESTION_CONTENT, a.QUESTION_DATE, a.MEM_ID, a.Q_INFO,
+               b.MEM_EMAIL
+			FROM QUESTION a, MEMBER b
+			WHERE a.mem_id = b.mem_id
+            and QUESTION_ID = #question_id#
+	</select>
+	
+	<!-- !!자기 질문 전체 출력 -->
+	<select id="SelectMyQuestionList" resultClass="QnAVO" parameterClass="String">
+		SELECT QUESTION_ID, Q_INFO, QUESTION_TITLE, TO_CHAR(QUESTION_DATE , 'YYYY-MM-DD HH24:MI:SS') AS question_date
+			FROM QUESTION 
+			WHERE MEM_ID = #mem_id#
+		ORDER BY QUESTION_ID ASC
+	</select>
+	
+	<!-- 질문 추가 추가 -->
+	<insert id="insertQuestion" parameterClass="QuestionVO">
+		INSERT INTO QUESTION
+			VALUES (QUESTION_ID_SEQ.NEXTVAL, #question_title#, #question_category#,
+					#question_content#, SYSDATE, #mem_id#, '질문')
+	</insert>
+	
+	<delete id="deleteQuestion" parameterClass="QuestionVO">
+	    DELETE FROM QUESTION 
+        	WHERE QUESTION_ID = #question_id#
+        	AND MEM_ID = #mem_id#
+	</delete>
+</sqlMap>

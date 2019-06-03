@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="playMusicItem">
+
+<!--1.현재재생목록 조회-->
+	<select id="selectPlayMusicItem" resultClass="PlayMusicItemVO" parameterClass="String">
+	 		SELECT * FROM PLAY_MUSIC_ITEM 
+	</select>
+	
+<!--2.현재재생목록의 곡 삭제-->	
+	<delete id="deletePlayMusicItem" parameterClass="Integer">
+		DELETE FROM PLAY_MUSIC_ITEM
+		WHERE music_id = #music_id#
+	</delete>
+	
+<!--3.현재재생목록에 곡 추가-->	
+	<insert id="insertPlayMusicItem" parameterClass="String">
+		INSERT INTO PLAY_MUSIC_ITEM VALUES(
+			#music_id#,
+			#mem_id#)
+	</insert>
+</sqlMap>
+
+
+

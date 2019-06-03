@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+			
+<sqlMap>
+	<!-- 노래방 추가 -->
+	<insert id="insertGaraoke_info" parameterClass="garaoke_infoVO">
+		insert into garaoke_info values(garaoke_info_seq.nextval, #garaoke_name#)
+	</insert>
+	<!-- 노래방 수정 -->
+	<update id="updateGaraoke_info" parameterClass="garaoke_infoVO">
+		update garaoke_info set garaoke_name = #garaoke_name#
+		where garaoke_id = #garaoke_id#
+	</update>
+	<!-- 노래방 삭제 -->
+	<delete id="deleteGaraoke_info" parameterClass="garaoke_infoVO">
+		delete from garaoke_info where garaoke_id = #garaoke_id#
+	</delete>
+	<!-- 노래방 출력 -->
+	<select id="selectGaraoke_info" resultClass="garaoke_infoVO" parameterClass="garaoke_infoVO">
+		select * from garaoke_info where garaoke_id = #garaoke_id#
+	</select>
+	<!-- 노래방 전체 출력 -->
+	<select id="selectAllGaraoke_info" resultClass="garaoke_infoVO">
+		select * from garaoke_info
+	</select>
+</sqlMap>

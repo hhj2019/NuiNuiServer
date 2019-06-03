@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Notice">
+
+	<!-- 공지사항 전체 출력 -->
+	<select id="selectAllNotice" resultClass="NoticeVO">
+		SELECT NOTICE_ID, NOTICE_TITLE, TO_CHAR(NOTICE_DATE , 'YYYY-MM-DD HH24:MI:SS') AS notice_date
+			FROM NOTICE
+		ORDER BY NOTICE_ID DESC
+	</select>
+	
+	<!-- 공지사항 상세 출력 -->
+	<select id="selectNoticedetail" resultClass="NoticeVO" parameterClass="INT">
+		SELECT NOTICE_TITLE, NOTICE_CONTENT, TO_CHAR(NOTICE_DATE , 'YYYY-MM-DD HH24:MI:SS') AS notice_date
+			FROM NOTICE
+			WHERE NOTICE_ID = #notice_id#
+	</select>
+	
+	<!-- 최근 공지사항 출력 -->
+	<select id="selectNewNotice" resultClass="NoticeVO">   
+		SELECT NOTICE_ID, NOTICE_TITLE, TO_CHAR(NOTICE_DATE , 'YYYY-MM-DD HH24:MI:SS') AS notice_date
+		    FROM NOTICE
+		    WHERE ROWNUM &lt;= 3
+		    ORDER BY NOTICE_DATE DESC
+	</select>
+	
+	<!-- 공지사항 추가 -->
+	<insert id="insertNotice" parameterClass="NoticeVO">
+		INSERT INTO NOTICE 
+			VALUES (Notice_id_seq.nextval, #notice_title#, #notice_content#, SYSDATE)
+	</insert>
+
+	<!-- 공지사항 수정 -->
+	<update id="updateNotice" parameterClass="NoticeVO">
+		UPDATE NOTICE 
+			SET NOTICE_TITLE = #notice_title#, NOTICE_DATE = SYSDATE, 
+				NOTICE_CONTENT = #notice_content#
+			WHERE NOTICE_ID = #notice_id#
+	</update>
+	
+	<!-- 공지사항 삭제 -->
+	<delete id="deleteNotice" parameterClass="INT">
+		DELETE FROM NOTICE 
+			WHERE NOTICE_ID = #notice_id#
+	</delete>
+	
+	<!-- 공지사항 제목 + 내용 검색 -->
+	<select id="allSearchNotice" resultClass="NoticeVO" parameterClass="Notice_searchVO">
+		SELECT NOTICE_ID, NOTICE_TITLE, TO_CHAR(NOTICE_DATE , 'YYYY-MM-DD HH24:MI:SS') AS notice_date
+    		FROM NOTICE
+    		WHERE NOTICE_TITLE LIKE '%'||#search_text#||'%'
+    		OR NOTICE_CONTENT LIKE '%'||#search_text1#||'%'
+	</select>
+	
+	<!-- 공지사항 제목 검색 -->
+	<select id="titleSearchNotice" resultClass="NoticeVO" parameterClass="Notice_OsearchVO">
+		SELECT NOTICE_ID, NOTICE_TITLE, TO_CHAR(NOTICE_DATE , 'YYYY-MM-DD HH24:MI:SS') AS notice_date
+    		FROM NOTICE
+    		WHERE NOTICE_TITLE LIKE '%'||#search_text#||'%'
+	</select>
+	
+		<!-- 공지사항 내용 검색 -->
+	<select id="contentSearchNotice" resultClass="NoticeVO" parameterClass="Notice_OsearchVO">
+		SELECT NOTICE_ID, NOTICE_TITLE, TO_CHAR(NOTICE_DATE , 'YYYY-MM-DD HH24:MI:SS') AS notice_date
+    		FROM NOTICE
+    		WHERE NOTICE_CONTENT LIKE '%'||#search_text#||'%'
+	</select>
+</sqlMap>

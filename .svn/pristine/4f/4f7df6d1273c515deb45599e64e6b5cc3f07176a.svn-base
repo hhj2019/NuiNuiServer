@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+			
+<sqlMap namespace="gareoke">
+	
+	<!-- 노래방 번호 단일 조회 -->
+	<select id="selectGaraoke" resultClass="GaraokeVO" parameterClass="Integer">
+		select * from garaoke where music_id = #music_id#
+	</select>
+	
+	<!-- 노래방 번호 추가 -->
+	<insert id="insertGaraoke" parameterClass="GaraokeVO">
+		insert into garaoke values(#music_id#, #garaoke_id#, #garaoke_number#)
+	</insert>
+	
+	<!-- 노래방 번호 수정 -->
+	<update id="updateGaraoke" parameterClass="GaraokeVO">
+		update garaoke set garaoke_id = #garaoke_id#,
+						   garaoke_number = #garaoke_number#
+		where music_id = #music_id#
+	</update>
+	
+	<!-- 노래방 번호 삭제 -->
+	<delete id="deleteGaraoke" parameterClass="Integer">
+		delete from garaoke where music_id = #music_id#
+	</delete>
+	
+</sqlMap>

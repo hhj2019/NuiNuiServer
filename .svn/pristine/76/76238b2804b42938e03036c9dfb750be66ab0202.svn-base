@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Chart">
+
+	<!-- 차트 출력 -->
+	<select id="selectAllChart" resultClass="ChartVO" parameterClass="ChartVO">
+		SELECT *
+			FROM CHART
+			where chart_title = #chart_title#
+			and to_char(chart_date,'YYYY-MM') = #chart_date#
+	</select>
+	
+	<insert id="insertChart" parameterClass="ChartVO">
+		insert into chart(chart_id, chart_title, chart_date) values(chart_seq.nextval, #chart_title#, sysdate)
+	</insert>
+	
+</sqlMap>

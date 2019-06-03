@@ -1,0 +1,50 @@
+package kr.or.ddit.nn.dao.album;
+
+
+import java.util.List;
+
+import kr.or.ddit.nn.vo.album.albumVO;
+
+/**
+ * 앨범 관리 인스턴스
+ * @author 봉상근
+ *
+ */
+public interface albumDao{
+	
+	/**
+	 * 앨범 추가 메서드
+	 * @param av
+	 * @return
+	 */
+	public int insertAlbum(albumVO av);
+	
+	/**
+	 * 앨범 수정 메서드
+	 * @param av
+	 * @return
+	 */
+	public int updateAlbum(albumVO av);
+	
+	/**
+	 * 앨범 삭제 메서드
+	 * @param album_id
+	 * @return
+	 */
+	public int deleteAlbum(albumVO av);
+	
+	/**
+	 * 앨범 전체 출력 메서드
+	 * @param album_id
+	 * @return
+	 */
+	public List<albumVO> selectAllAlbum();
+	
+	/**
+	 * 앨범 단일 출력 메서드
+	 * @param album_id
+	 * @return
+	 */
+	public albumVO selectAlbum(albumVO av);
+	
+}

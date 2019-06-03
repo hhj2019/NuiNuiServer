@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ticket">
+
+	<insert id="ticket.insertTicketInfo" parameterClass="ticketVO">
+		INSERT INTO ticket VALUES(
+			ticket_id_seq.NEXTVAL,
+			#ticket_name#,
+			#ticket_day#,
+			#ticket_content#, #ticket_download#, #ticket_price#, #ticket_activation#)
+	</insert>
+	
+	<update id="ticket.updateTicketInfo" parameterClass="ticketVO">
+		UPDATE ticket SET
+			ticket_name = #ticket_name#,
+			ticket_day = #ticket_day#,
+			ticket_content = #ticket_content#,
+			ticket_download = #ticket_download#,
+			ticket_price = #ticket_price#,
+			ticket_activation = #ticket_activation#
+		WHERE ticket_id = #ticket_id#
+	</update>
+	
+	<delete id="ticket.deleteTicketInfo" parameterClass="int">
+		DELETE FROM ticket
+		WHERE ticket_id = #value#
+	</delete>
+	
+	<select id="ticket.user.viewTicketProd" resultClass="ticketVO">
+		SELECT * FROM ticket
+		WHERE ticket_activation = 1
+		ORDER BY ticket_price
+	</select>
+	
+	<select id="ticket.manager.viewTicketProd" resultClass="ticketVO">
+		SELECT * FROM ticket ORDER BY ticket_id DESC
+	</select>
+	
+	<select id="ticket.getTicketInfo" parameterClass="int" resultClass="ticketVO">
+		SELECT * FROM ticket
+		WHERE ticket_id=#value#
+	</select>
+
+</sqlMap>			
+
+
+
+
+

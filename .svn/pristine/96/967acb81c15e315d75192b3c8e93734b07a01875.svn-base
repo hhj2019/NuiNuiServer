@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="like">
+
+<!--1.좋아요 조회-->
+	<select id="selectLike" resultClass="LikeVO" >
+	 		select L.music_id, m.music_name, a.artist_name, to_char(m.music_playtime,'MI:SS') as music_playtime, ab.album_name
+			from LIKES L, music m, artist a, album ab
+			where L.mem_id = #mem_id#
+			and m.music_id = L.music_id
+			and m.artist_id = a.artist_id
+			and m.album_id = ab.album_id
+	</select>
+	
+	<!-- 좋아요 추가 -->
+	<insert id="insertLike" parameterClass="LikeVO">
+		 insert into LIKES (LIKE_ID, MEM_ID, MUSIC_ID) values(LIKES_SQL.nextval, #mem_id#, #music_id#)
+	</insert>
+	
+	
+		<!-- 좋아요 삭제 -->
+	<delete id="deleteLike" parameterClass="Integer">
+		  DELETE FROM LIKES
+           WHERE music_id = #music_id#
+	</delete>
+</sqlMap>	
